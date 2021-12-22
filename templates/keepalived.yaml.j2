@@ -1,0 +1,53 @@
+# {{ ansible_managed }}
+# Kubernetes: manifest for static pods are in /etc/kubernetes/manifest
+apiVersion: v1
+kind: Pod
+metadata:
+    annotations:
+    scheduler.alpha.kubernetes.io/critical-pod: ""
+    labels:
+    {% if labels is defined %}
+    {% for label in labels %}
+    {% for key, value in label.items() %}
+    {{ key }}: {{ value }}
+    {% endfor %}
+    {% endfor %}
+    {% endif %}
+
+    name: kube-keepalived
+    namespace: {{ keepalived_namespace }}
+spec:
+    containers:
+    - name: keepalived
+      image: {{ keepalived_image }}
+      imagePullPolicy: Always
+      args: # override options in the Dockerfile
+      - --vrrp
+      - --log-detail
+      - --dump-conf
+      - --use-file="{{ keepalived_config_path }}"
+      livenessProbe:
+        exec:
+          command: ["pidof", "keepalived"]
+          initialDelaySeconds: 10
+      securityContext:
+        privileged: true
+        capabilities:
+          add:
+          - NET_ADMIN
+      volumeMounts:
+      - mountPath: /etc/localtime
+        name: host-localtime
+      - mountPath: {{ keepalived_config_path | dirname }}
+        name: config
+        mode: 0755
+      hostNetwork: true
+      priorityClassName: system-node-critical
+      restartPolicy: Always
+    volumes:
+    - hostPath:
+        path: /etc/localtime
+      name: host-localtime
+    - hostPath:
+        path: {{ keepalived_config_path | dirname }}
+      name: config

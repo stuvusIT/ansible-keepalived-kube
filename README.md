@@ -1,27 +1,32 @@
-# Role Name
+#  Keepalived
 
-A brief description of the role goes here.
-
+This role configures keepalived as a static pod on a kubernetes master node.
 
 ## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here.
-For instance, if the role uses the EC2 module or depends on other Ansible roles, it may be a good idea to mention in this section that the boto package is required.
+This role needs the host to be configured as a working kubernetes master node.
 
 
 ## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role.
-Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
-Don't forget to indent the markdown table so it is readable even if not rendered.
-
-| Name       | Required/Default         | Description                                                                                        |
-|------------|:------------------------:|----------------------------------------------------------------------------------------------------|
-| `example1` | :heavy_check_mark:       | Lorem ipsum dolor sit amet, consetetur sadipscing elitr,                                           |
-| `example2` | :heavy_multiplication_x: | Sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. |
-| `example3` | `True`                   | Stet clita kasd gubergren                                                                          |
-| `example4` | `5`                      | No sea takimata sanctus est Lorem ipsum dolor sit amet.                                            |
+| Name                         |                          Required/Default                           | Description                                                                   |
+| ---------------------------- | :-----------------------------------------------------------------: | ----------------------------------------------------------------------------- |
+| `keepalived_interface`       |                         :heavy_check_mark:                          | The interface on which to configure the VIP                                   |
+| `keepalived_router_id`       |                          :heavy_checkmark:                          | Router id of the vrrp instance. Should be shared by all hosts in the cluster. |
+| `keepalived_vip`             |                          :heavy_checkmark:                          | The virtual IP to use                                                         |
+| `keepalived_password`        |                          :heavy_checkmark:                          | passwort used for authentication between vppr instances.                      |
+| `keepaliced_labels`          |                      :heavy_multiplication_x:                       | Labels to be added to the pod                                                 |
+| `keepalived_namespace`       |                            `kube-system`                            | The namespace of the pod                                                      |
+| `keepalived_image`           |                         `bsctl/keepalived`                          | image to use for the keepalived container                                     |
+| `keepalived_config_path`     |                  `/etc/keepalived/keepalived.conf`                  | path to use for `keepalived.conf`                                             |  |
+| `keepalived_health_command`  | `"/usr/bin/curl -s -k https://localhost:6443/healthz -o /dev/null"` | command to use for the health check                                           |
+| `keepalived_health_timeout`  |                                 `2`                                 | timeout for the health command in seconds                                     |
+| `keepalived_health_interval` |                                 `5`                                 | interval to execute the health check at                                       |
+| `keepalived_health_rise`     |                                 `2`                                 | number of successful health checks necessary to become healthy                |
+| `keepalived_health_fall`     |                                 `3`                                 | number of failed health checks to tolerate                                    |
+| `keepalived_health_user`     |                               `root`                                | user as which to run the health check                                         |
+| `keepalived_advert_interval` |                                 `3`                                 | interval for advertising the own state to other keepalived instances          |
 
 
 ## Example
@@ -39,4 +44,4 @@ This work is licensed under the [MIT License](./LICENSE).
 
 ## Author Information
 
-- [Author Name (nickname)](github profile) _givenname.familyname at stuvus.uni-stuttgart.de_
+- [Sven Feyerabend](SF2311) _sven.feyerabend at stuvus.uni-stuttgart.de_

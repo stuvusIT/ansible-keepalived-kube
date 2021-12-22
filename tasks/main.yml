@@ -1,2 +1,14 @@
 ---
+- name: Make sure config dir exists
+  file:
+    path: "{{ keepalived_config_path | dirname }}"
+    state: directory
+- name: Place keepalived.conf
+  ansible.builtin.template:
+    src: templates/keepalived.conf.j2
+    dest: "{{ keepalived_config_path }}"
 
+- name: Place static pod mainifest
+  ansible.builtin.template:
+    src: templates/keepalived.yaml.j2
+    dest: /etc/kubernetes/manifests/keepalived.yaml

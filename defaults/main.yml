@@ -1,0 +1,10 @@
+keepalived_namespace: kube-system
+keepalived_image: bsctl/keepalived
+keepalived_config_path: /etc/keepalived/keepalived.conf
+keepalived_health_command: "/usr/bin/curl -s -k https://localhost:6443/healthz -o /dev/null"
+keepalived_health_timeout: 2
+keepalived_health_interval: 5
+keepalived_health_rise: 2
+keepalived_health_fall: 3
+keepalived_health_user: root
+keepalived_advert_interval: 3

@@ -1,0 +1,32 @@
+#{{ ansible_managed }}
+# keepalived global configuration
+global_defs {
+  default_interface {{ keepalived_interface }}
+  enable_script_security
+}
+vrrp_script apiServerHealthProbe {
+  script   "{{ keepalived_health_command }}"
+  interval {{ keepalived_health_interval }}
+  timeout  {{ keepalived_health_timeout }}
+  rise     {{ keepalived_health_rise }}
+  fall     {{ keepalived_health_fall }}
+  user     {{ keepalived_health_user }}
+}
+
+vrrp_instance {{ keepalived_interface }} {
+  state BACKUP
+  interface {{ keepalived_interface }}
+  virtual_router_id {{ keepalived_router_id }}
+  priority KEEPALIVED_PRIORITY
+  advert_int {{ keepalived_advert_interval }}
+  authentication {
+    auth_type PASS
+    auth_pass {{ keepalived_password | b64encode }}
+  }
+  track_script {
+    apiServerHealthProbe
+  }
+  virtual_ipaddress {
+    {{ keepalived_vip }} label {{ keepalived_interface }}:VIP
+  }
+}
