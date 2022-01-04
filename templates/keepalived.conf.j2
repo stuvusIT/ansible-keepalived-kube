@@ -6,7 +6,7 @@ global_defs {
 
 {%if keepalived_kube_vip_v4 is defined %}
 vrrp_script check_apiserver_v4 {
-  script   "/etc/keepalived/check_apiserver.sh"
+  script   "/etc/keepalived/check_apiserver_v4.sh"
   interval {{ keepalived_kube_script_interval }}
   timeout  {{ keepalived_kube_script_timeout }}
   rise     {{ keepalived_kube_script_rise }}
