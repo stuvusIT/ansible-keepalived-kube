@@ -4,7 +4,7 @@ global_defs {
   enable_script_security
 }
 
-vrrp_script check_apiserver {
+vrrp_script check_apiserver_v4 {
   script   "/etc/keepalived/check_apiserver.sh"
   interval {{ keepalived_kube_script_interval }}
   timeout  {{ keepalived_kube_script_timeout }}
@@ -12,15 +12,38 @@ vrrp_script check_apiserver {
   fall     {{ keepalived_kube_script_fall }}
   user     {{ keepalived_kube_script_user }}
 }
+{%if keepalived_kube_vip_v6 is defined %}
+vrrp_script check_apiserver_v6 {
+  script: "/etc/keepalived/ckeck_apiserver_v6.sh"
+  interval  {{ keepalived_kube_script_interval }}
+  timeout   {{ keepalived_kube_script_timeout }}
+  rise      {{ keepalived_kube_script_rise }}
+  fall      {{ keepalived_kube_script_fall }}
+  user      {{ keepalived_kube_script_user }}
+}
+{% endif %}
 
 vrrp_instance VI_1 {
   state BACKUP
   interface {{ keepalived_kube_interface }}
-  virtual_router_id {{ keepalived_kube_router_id }}
+  virtual_router_id {{ keepalived_kube_router_id_v4 }}
   track_script {
-    check_apiserver
+    check_apiserver_v4
   }
   virtual_ipaddress {
-    {{ keepalived_kube_vip }}
+    {{ keepalived_kube_vip_v4 }}
   }
 }
+{% if keepalived_kube_vip_v6 is defined %}
+vrrp_instance VI_2 {
+  state BACKUP
+  interface {{ keepalived_kube_interface }}
+  virtual_router_id {{ keepalived_kube_router_id_v6 }}
+  track_script {
+    check_apiserver_v6
+  }
+  virtual_ipaddress{
+    {{ keepalived_kube_vip_v6 }}/64
+  }
+}
+{% endif %}
