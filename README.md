@@ -1,7 +1,8 @@
 # Keepalived
 
 This role configures keepalived as a static Pod on a Kubernetes master node.
-It supports either a IPv4  virtual IP or IPv4 and IPv6 simultaneously.
+It supports an IPv4  virtual IP as well as an IPv6 one.
+Both addresses can be configured independently.
 
 ## Requirements
 
@@ -12,7 +13,7 @@ This role needs the host to be configured as a working Kubernetes master node.
 | Name                              |     Required/Default      | Description                                                                                               |
 | --------------------------------- | :-----------------------: | --------------------------------------------------------------------------------------------------------- |
 | `keepalived_kube_interface`       |    :heavy_check_mark:     | The interface on which to configure the VIP                                                               |
-| `keepalived_kube_vip_v4`          |    :heavy_check_mark:     | The virtual IPv4 address to use                                                                           |
+| `keepalived_kube_vip_v4`          |        `undefined`        | The virtual IPv4 address to use                                                                           |
 | `keepalived_kube_vip_v6`          |        `undefined`        | The virtual IPv6 address to use.                                                                          |
 | `keepalived_kube_image`           |    `bsctl/keepalived`     | image to use for the keepalived container                                                                 |
 | `keepalived_kube_namespace`       |       `kube-system`       | The namespace of the pod                                                                                  |

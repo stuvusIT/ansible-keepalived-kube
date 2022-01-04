@@ -14,7 +14,7 @@ keepalived_kube_manifest:
     annotations:
       scheduler.alpha.kubernetes.io/critical-pod: ""
       keepalived-kube.stuvus.de/config-checksum: "{{ config.checksum }}"
-      keepalived-kube.stuvus.de/script_v4-checksum: "{{ script_v4.checksum }}"
+      keepalived-kube.stuvus.de/script_v4-checksum: "{{ script_v4.checksum | default(None) }}"
       keepalived-kube.stuvus.de/script_v6-checksum: "{{ script_v6.checksum | default(None) }}"
     name: kube-keepalived
     namespace: "{{ keepalived_kube_namespace }}"

@@ -4,6 +4,7 @@ global_defs {
   enable_script_security
 }
 
+{%if keepalived_kube_vip_v4 is defined %}
 vrrp_script check_apiserver_v4 {
   script   "/etc/keepalived/check_apiserver.sh"
   interval {{ keepalived_kube_script_interval }}
@@ -12,6 +13,8 @@ vrrp_script check_apiserver_v4 {
   fall     {{ keepalived_kube_script_fall }}
   user     {{ keepalived_kube_script_user }}
 }
+{% endif %}
+
 {%if keepalived_kube_vip_v6 is defined %}
 vrrp_script check_apiserver_v6 {
   script: "/etc/keepalived/ckeck_apiserver_v6.sh"
@@ -23,6 +26,7 @@ vrrp_script check_apiserver_v6 {
 }
 {% endif %}
 
+{% if keepalived_kube_vip_v4 is defined %}
 vrrp_instance VI_1 {
   state BACKUP
   interface {{ keepalived_kube_interface }}
@@ -34,6 +38,8 @@ vrrp_instance VI_1 {
     {{ keepalived_kube_vip_v4 }}
   }
 }
+{% endif %}
+
 {% if keepalived_kube_vip_v6 is defined %}
 vrrp_instance VI_2 {
   state BACKUP
