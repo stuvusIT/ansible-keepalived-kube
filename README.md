@@ -16,8 +16,8 @@ This role needs the host to be configured as a working Kubernetes master node.
 | `keepalived_kube_vip_v6`          |        `undefined`        | The virtual IPv6 address to use.                                                                          |
 | `keepalived_kube_image`           |    `bsctl/keepalived`     | image to use for the keepalived container                                                                 |
 | `keepalived_kube_namespace`       |       `kube-system`       | The namespace of the pod                                                                                  |
-| `keepalived_kube_router_id_v4`    |           `51`            | Router id of the vrrp instance responsible for the IPv4 IP. Should be shared by all hosts in the cluster. |
-| `keepalived_kube_router_id_v6`    |           `52`            | Router id of the vrrp instance responsible vor the IPv6 IP. Should be shared by all hosts in the cluster. |
+| `keepalived_kube_router_id_v4`    |           `51`            | Router ID of the vrrp instance responsible for the IPv4 IP. Should be shared by all hosts in the cluster. |
+| `keepalived_kube_router_id_v6`    |           `52`            | Router ID of the vrrp instance responsible for the IPv6 IP. Should be shared by all hosts in the cluster. |
 | `keepalived_kube_script_interval` |            `5`            | interval to execute the health check at                                                                   |
 | `keepalived_kube_script_timeout`  |            `2`            | timeout for the health command in seconds                                                                 |
 | `keepalived_kube_script_rise`     |            `2`            | number of successful health checks necessary to become healthy                                            |
