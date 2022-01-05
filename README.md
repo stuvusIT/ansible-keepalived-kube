@@ -1,7 +1,7 @@
 # Keepalived
 
 This role configures keepalived as a static Pod on a Kubernetes master node.
-It supports an IPv4  virtual IP as well as an IPv6 one.
+It supports an IPv4 virtual IP as well as an IPv6 one.
 Both addresses can be configured independently.
 
 ## Requirements
