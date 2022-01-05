@@ -1,6 +1,7 @@
 keepalived_kube_image: bsctl/keepalived
 keepalived_kube_namespace: kube-system
-keepalived_kube_router_id: 51
+keepalived_kube_router_id_v4: 51
+keepalived_kube_router_id_v6: 52
 keepalived_kube_script_interval: 2
 keepalived_kube_script_timeout: 5
 keepalived_kube_script_rise: 2
@@ -13,7 +14,8 @@ keepalived_kube_manifest:
     annotations:
       scheduler.alpha.kubernetes.io/critical-pod: ""
       keepalived-kube.stuvus.de/config-checksum: "{{ config.checksum }}"
-      keepalived-kube.stuvus.de/script-checksum: "{{ script.checksum }}"
+      keepalived-kube.stuvus.de/script_v4-checksum: "{{ script_v4.checksum | default(None) }}"
+      keepalived-kube.stuvus.de/script_v6-checksum: "{{ script_v6.checksum | default(None) }}"
     name: kube-keepalived
     namespace: "{{ keepalived_kube_namespace }}"
   spec:

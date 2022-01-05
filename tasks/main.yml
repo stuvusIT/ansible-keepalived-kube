@@ -10,12 +10,21 @@
     dest: /etc/keepalived/keepalived.conf
   register: config
 
-- name: Write check_apiserver.sh
+- name: Write check_apiserver_v4.sh
   template:
-    src: check_apiserver.sh.j2
-    dest: /etc/keepalived/check_apiserver.sh
+    src: check_apiserver_v4.sh.j2
+    dest: /etc/keepalived/check_apiserver_v4.sh
     mode: 0755
-  register: script
+  register: script_v4
+  when: keepalive_kube_vip_v4 is defined
+
+- name: Write check_apiserver_v6.sh
+  template:
+    src: check_apiserver_v6.sh.j2
+    dest: /etc/keepalived/check_apiserver_v6.sh
+    mode: 0755
+  register: script_v6
+  when: keepalived_kube_vip_v6 is defined
 
 - name: Write static Pod manifest
   template:
