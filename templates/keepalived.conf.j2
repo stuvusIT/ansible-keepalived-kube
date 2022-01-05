@@ -49,7 +49,7 @@ vrrp_instance VI_2 {
     check_apiserver_v6
   }
   virtual_ipaddress {
-    {{ keepalived_kube_vip_v6 }}/64
+    {{ keepalived_kube_vip_v6 }}
   }
 }
 {% endif %}

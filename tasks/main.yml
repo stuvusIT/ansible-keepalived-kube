@@ -16,7 +16,7 @@
     dest: /etc/keepalived/check_apiserver_v4.sh
     mode: 0755
   register: script_v4
-  when: keepalive_kube_vip_v4 is defined
+  when: keepalived_kube_vip_v4 is defined
 
 - name: Write check_apiserver_v6.sh
   template:
