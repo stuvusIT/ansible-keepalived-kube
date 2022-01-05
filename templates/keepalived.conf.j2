@@ -17,7 +17,7 @@ vrrp_script check_apiserver_v4 {
 
 {%if keepalived_kube_vip_v6 is defined %}
 vrrp_script check_apiserver_v6 {
-  script: "/etc/keepalived/ckeck_apiserver_v6.sh"
+  script    "/etc/keepalived/check_apiserver_v6.sh"
   interval  {{ keepalived_kube_script_interval }}
   timeout   {{ keepalived_kube_script_timeout }}
   rise      {{ keepalived_kube_script_rise }}
@@ -48,7 +48,7 @@ vrrp_instance VI_2 {
   track_script {
     check_apiserver_v6
   }
-  virtual_ipaddress{
+  virtual_ipaddress {
     {{ keepalived_kube_vip_v6 }}/64
   }
 }
